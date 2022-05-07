@@ -179,11 +179,11 @@ def get_loader(args):
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
     train_dataset = build_dataset(args.dataset, args.data_dir, transform=train_transform, split = args.datasplit)
-    # train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset)
+    train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset)
     train_loader = torch.utils.data.DataLoader(
         train_dataset, batch_size=args.batch_size, shuffle=False,
         num_workers=args.num_workers, pin_memory=True,
-        drop_last=True)
+        sampler=train_sampler, drop_last=True)
     return train_loader
 
 
