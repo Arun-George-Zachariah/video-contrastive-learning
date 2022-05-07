@@ -7,6 +7,7 @@ Copyright (c) 2020 YihengZhang-CV
 """
 
 
+
 import torch.utils.data
 import os
 import copy
@@ -49,7 +50,9 @@ class MSR_VTT_ClipFolderDataset(torch.utils.data.Dataset):
         print('using {} data sources'.format(self.dataset_root_num))
         # data frame root
         self.dataset_frame_root = [os.path.join(p, split) for p in self.dataset_root]
+        print("Arun :: self.dataset_frame_root :: ", self.dataset_frame_root)
         for p in self.dataset_frame_root:
+            print("Arun :: p :: ", p)
             assert os.path.exists(p)
         # data list file
         assert split in ('train', 'val')
@@ -74,7 +77,7 @@ class MSR_VTT_ClipFolderDataset(torch.utils.data.Dataset):
         vids = []
         for k, l in enumerate(lines):
             lsp = l.strip().split(' ')
-            # path, frame, label
+            # path, label
             if self.dataset_frame_root_ssd is not None and os.path.exists(
                     os.path.join(self.dataset_frame_root_ssd, lsp[0])):
                 vid_root = os.path.join(self.dataset_frame_root_ssd, lsp[0])
@@ -83,7 +86,7 @@ class MSR_VTT_ClipFolderDataset(torch.utils.data.Dataset):
             vid_root, _ = os.path.splitext(vid_root)
             # use splitetxt twice because there are some video root like: abseiling/9EnSwbXxu5g.mp4.webm
             vid_root, _ = os.path.splitext(vid_root)
-            vids.append((vid_root, int(lsp[1]), int(lsp[2])))
+            vids.append((vid_root, int(lsp[1])))
 
         return vids
 
