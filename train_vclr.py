@@ -176,7 +176,7 @@ if __name__ == '__main__':
         torch.cuda.manual_seed_all(args.rng_seed)
     print(args.local_rank)
 
-    torch.cuda.set_device(args.device)
+    torch.cuda.set_device(args.local_rank)
     # torch.distributed.init_process_group(backend='nccl', init_method='env://')
     cudnn.benchmark = True
 
