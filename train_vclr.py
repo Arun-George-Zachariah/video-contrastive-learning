@@ -176,17 +176,17 @@ if __name__ == '__main__':
         torch.cuda.manual_seed_all(args.rng_seed)
     print(args.local_rank)
 
-    torch.cuda.set_device(args.local_rank)
-    torch.distributed.init_process_group(backend='nccl', init_method='env://')
+    torch.cuda.set_device(args.device)
+    # torch.distributed.init_process_group(backend='nccl', init_method='env://')
     cudnn.benchmark = True
 
     os.makedirs(args.output_dir, exist_ok=True)
-    logger = setup_logger(output=args.output_dir, distributed_rank=dist.get_rank(), name="vclr")
-    if dist.get_rank() == 0:
-        path = os.path.join(args.output_dir, "config.json")
-        with open(path, 'w') as f:
-            json.dump(vars(args), f, indent=2)
-        logger.info("Full config saved to {}".format(path))
+    logger = setup_logger(output=args.output_dir, name="vclr")
+    # if dist.get_rank() == 0:
+    path = os.path.join(args.output_dir, "config.json")
+    with open(path, 'w') as f:
+        json.dump(vars(args), f, indent=2)
+    logger.info("Full config saved to {}".format(path))
 
     log_dir = os.path.join('model', 'tensorboards')
     writer = SummaryWriter(log_dir=log_dir)
